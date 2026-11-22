@@ -1,0 +1,299 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* ---------------------------------------------------------------
+   Vishal Dental design tokens
+
+   Light (default): porcelain white, deep teal ink, fresh mint.
+   Dark: midnight teal with glowing mint.
+   --------------------------------------------------------------- */
+:root {
+  color-scheme: light;
+
+  --bg: #f3f7f6;
+  --surface: #ffffff;
+  --surface-2: #e5efed;
+  --fg: #0a2328;
+  --muted: #4b6468;
+  --accent: #0b7a70;
+  --accent-2: #2cc4a8;
+  --accent-ink: #ffffff;
+  --mint: #9ff0dc;
+  --pearl: #ffffff;
+  --coral: #f2644f;
+
+  --shadow-card-v: 0 1px 2px rgb(10 35 40 / 0.04), 0 18px 40px -22px rgb(10 35 40 / 0.22);
+  --shadow-lift-v: 0 2px 6px rgb(10 35 40 / 0.05), 0 40px 70px -30px rgb(11 122 112 / 0.38);
+
+  --deep-bg: #062126;
+  --deep-surface: #0b2e33;
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --bg: #04161a;
+  --surface: #0a2227;
+  --surface-2: #0f2d33;
+  --fg: #e7f5f2;
+  --muted: #93b2b0;
+  --accent: #4fe3c6;
+  --accent-2: #9ff0dc;
+  --accent-ink: #032a25;
+  --mint: #4fe3c6;
+  --pearl: #f1fbf9;
+
+  --shadow-card-v: 0 0 0 1px rgb(255 255 255 / 0.05), 0 20px 44px -22px rgb(0 0 0 / 0.8);
+  --shadow-lift-v: 0 0 0 1px rgb(79 227 198 / 0.22), 0 30px 70px -28px rgb(79 227 198 / 0.3);
+
+  --deep-bg: #020e11;
+  --deep-surface: #072126;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-2: var(--accent-2);
+  --color-accent-ink: var(--accent-ink);
+  --color-mint: var(--mint);
+  --color-pearl: var(--pearl);
+  --color-coral: var(--coral);
+
+  --font-display: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-instrument), ui-serif, Georgia, serif;
+  --font-sans: var(--font-figtree), ui-sans-serif, system-ui, sans-serif;
+
+  --shadow-card: var(--shadow-card-v);
+  --shadow-lift: var(--shadow-lift-v);
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ---------------------------------------------------------------
+   Keyframes
+   --------------------------------------------------------------- */
+@keyframes blur-in {
+  from { opacity: 0; filter: blur(14px); transform: translateY(0.35em) scale(0.98); }
+  to { opacity: 1; filter: blur(0); transform: none; }
+}
+@keyframes rise {
+  from { opacity: 0; transform: translateY(22px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes lip-up {
+  to { transform: translateY(-101%); }
+}
+@keyframes lip-down {
+  to { transform: translateY(101%); }
+}
+@keyframes draw {
+  from { stroke-dashoffset: 1; }
+  to { stroke-dashoffset: 0; }
+}
+@keyframes intro-fade {
+  to { opacity: 0; transform: scale(0.94); }
+}
+@keyframes ripple {
+  0% { transform: scale(0.7); opacity: 0; }
+  20% { opacity: 0.55; }
+  100% { transform: scale(1.55); opacity: 0; }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+@keyframes twinkle {
+  0%, 100% { transform: scale(0.4) rotate(0deg); opacity: 0; }
+  50% { transform: scale(1) rotate(45deg); opacity: 1; }
+}
+@keyframes sweep {
+  0%, 55% { transform: translateX(-120%) skewX(-18deg); }
+  100% { transform: translateX(220%) skewX(-18deg); }
+}
+@keyframes aurora {
+  0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
+  33% { transform: translate(8%, -6%) rotate(20deg) scale(1.1); }
+  66% { transform: translate(-6%, 8%) rotate(-12deg) scale(0.94); }
+}
+@keyframes bubble {
+  0% { transform: translateY(0) scale(0.6); opacity: 0; }
+  15% { opacity: var(--o, 0.5); }
+  100% { transform: translateY(-70svh) scale(1.1); opacity: 0; }
+}
+@keyframes ticker {
+  to { transform: translateX(-50%); }
+}
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+
+/* ---------------------------------------------------------------
+   Base
+   --------------------------------------------------------------- */
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-top: 5.5rem;
+  }
+  body {
+    background-color: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    transition: background-color 0.5s ease, color 0.5s ease;
+  }
+  ::selection {
+    background: var(--accent-2);
+    color: var(--accent-ink);
+  }
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+::view-transition-new(root) {
+  animation: vt-grow 0.7s var(--ease-out-expo);
+}
+@keyframes vt-grow {
+  from { clip-path: circle(0 at var(--vt-x, 50%) var(--vt-y, 0)); }
+  to { clip-path: circle(150vmax at var(--vt-x, 50%) var(--vt-y, 0)); }
+}
+
+/* ---------------------------------------------------------------
+   Utilities
+   --------------------------------------------------------------- */
+@utility wrap {
+  width: 100%;
+  max-width: 78rem;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+  @media (min-width: 640px) {
+    padding-inline: 2rem;
+  }
+}
+
+@utility display {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  line-height: 0.98;
+  font-variation-settings: "opsz" 96;
+}
+
+@utility serif {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: -0.01em;
+}
+
+/* Deep teal block inside the light page; re-points tokens so children "just work". */
+@utility deep {
+  --bg: var(--deep-bg);
+  --surface: var(--deep-surface);
+  --surface-2: #0f3a40;
+  --fg: #e9f7f4;
+  --muted: #9cbcb9;
+  --accent: #5ee8cb;
+  --accent-2: #b4f5e4;
+  --accent-ink: #042a25;
+  --mint: #5ee8cb;
+  background-color: var(--bg);
+  color: var(--fg);
+}
+
+/* Per-element entrance with a CSS delay so it plays before hydration. */
+@utility blur-in {
+  opacity: 0;
+  animation: blur-in 1.1s var(--ease-out-expo) both;
+  animation-delay: var(--d, 0s);
+}
+@utility enter {
+  opacity: 0;
+  animation: rise 1s var(--ease-out-expo) both;
+  animation-delay: var(--d, 0s);
+}
+
+.text-gradient {
+  background: linear-gradient(100deg, var(--accent) 10%, var(--accent-2) 60%, var(--accent) 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+}
+
+/* ---------------------------------------------------------------
+   Intro: lips part to reveal the page (pure CSS, ~1.5s)
+   --------------------------------------------------------------- */
+.lip {
+  position: fixed;
+  inset-inline: 0;
+  height: 50.5svh;
+  z-index: 200;
+  background: var(--deep-bg);
+  pointer-events: none;
+  will-change: transform;
+}
+.lip-top {
+  top: 0;
+  animation: lip-up 1s cubic-bezier(0.76, 0, 0.24, 1) 1.05s forwards;
+}
+.lip-bottom {
+  bottom: 0;
+  animation: lip-down 1s cubic-bezier(0.76, 0, 0.24, 1) 1.05s forwards;
+}
+.intro-mark {
+  animation: intro-fade 0.45s ease-in 0.85s forwards;
+}
+.intro-smile {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: draw 0.8s var(--ease-out-expo) 0.15s forwards;
+}
+
+.ripple { animation: ripple 4.5s cubic-bezier(0.2, 0.6, 0.3, 1) infinite; }
+.float { animation: float 7s ease-in-out infinite; }
+.spin-slow { animation: spin 26s linear infinite; transform-box: fill-box; transform-origin: center; }
+.spin-ring { animation: spin 18s linear infinite; }
+.twinkle { animation: twinkle 2.8s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+.sweep { animation: sweep 5s ease-in-out infinite; }
+.aurora { animation: aurora 22s ease-in-out infinite; }
+.bubble { animation: bubble var(--t, 12s) linear infinite; animation-delay: var(--d, 0s); }
+.ticker { animation: ticker 40s linear infinite; }
+.blink { animation: blink 1.6s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .lip, .intro-mark { display: none; }
+  .blur-in, .enter { animation: none; opacity: 1; }
+  .ripple, .float, .spin-slow, .spin-ring, .twinkle, .sweep, .aurora, .bubble, .ticker, .blink {
+    animation: none;
+  }
+  .bubble { display: none; }
+}
